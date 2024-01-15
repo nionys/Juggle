@@ -1,0 +1,53 @@
+:root {
+  --leftHandX: 0%;
+  --rightHandX: 100%;
+  --handY: 100%;
+  --apexY: 0%;
+
+  --period: 3;
+  --interval: 0.5s;
+}
+#box{
+  position: absolute;
+  border: 1px solid black;
+  top: 20%;
+  height: 60%;
+  left: 40%;
+  width: 20%;
+
+}
+.ball{
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+.green{
+  background-color: green;
+}
+.animated{
+  animation-name: left2right, right2left;
+  animation-direction: normal;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-delay: 0s, 3s;
+  animation-fill-mode: backwards, none;
+  animation-timing-function: linear;
+}
+@keyframes left2right {
+  0% {
+    left: var(--leftHandX);
+  }
+  50% {
+    left: var(--rightHandX);
+  }
+}
+@keyframes right2left {
+  0% {
+    left: var(--rightHandX);
+  }
+  50% {
+    left: var(--leftHandX);
+  } 
+}
