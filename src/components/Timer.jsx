@@ -4,27 +4,27 @@ const TIME_UNIT = 10;
 
 export default function Timer(props) {
   const { max } = props;
-  console.log(max);
-  const [timer, setTimer] = useState(0);
   const intervalId = useRef(null);
+  const [clock, setClock] = useState(0);
+  const time = {current: clock};
   useEffect(() => {
-    console.log('uE max', max);
-    if (intervalId.current === null) {
-      intervalId.current = setInterval(tick, TIME_UNIT);
+    const tick = () => {
+      if (time.current < max*1000) {
+        time.current = Math.min(max*1000, time.current+TIME_UNIT);
+        setClock(time.current);
+      } else {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+      }
     }
-  }, [max]);
-  function tick() {
-    if (timer <= max*1000) {
-      console.log('if', timer, max*1000, timer+TIME_UNIT);
-      setTimer(t => Math.min(max*1000, t+TIME_UNIT));
-    } else {
-      console.log('else');
+    if (intervalId.current !== null) {
       clearInterval(intervalId.current);
       intervalId.current = null;
     }
-  }
+    intervalId.current = setInterval(tick, TIME_UNIT);
+  }, [max]);
 
   return <>
-    <p>{timer}</p>
+    <p>{clock}</p>
   </>;
 }
