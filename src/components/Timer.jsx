@@ -1,30 +1,20 @@
 import { useEffect, useRef, useState } from "react";
+import Stopwatch from "../Stopwatch";
 
-const TIME_UNIT = 10;
+const TIME_UNIT = 250;
 
 export default function Timer(props) {
   const { max } = props;
-  const intervalId = useRef(null);
-  const [clock, setClock] = useState(0);
-  const time = {current: clock};
+  const [timer, setTimer] = useState(0);
+
+  const stopwatchRef = useRef(new Stopwatch(TIME_UNIT));
+  stopwatchRef.current.onTick = () => setTimer(t=> t+TIME_UNIT);
+
   useEffect(() => {
-    const tick = () => {
-      if (time.current < max*1000) {
-        time.current = Math.min(max*1000, time.current+TIME_UNIT);
-        setClock(time.current);
-      } else {
-        clearInterval(intervalId.current);
-        intervalId.current = null;
-      }
-    }
-    if (intervalId.current !== null) {
-      clearInterval(intervalId.current);
-      intervalId.current = null;
-    }
-    intervalId.current = setInterval(tick, TIME_UNIT);
+    stopwatchRef.current.continueTo(max*1000);
   }, [max]);
 
-  return <>
-    <p>{clock}</p>
+return <>
+    <p>{timer}</p>
   </>;
 }

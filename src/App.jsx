@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import './App.css'
-import Counter from './components/Counter'
 import Timer from './components/Timer';
 function App() {
   const [counter, setCounter] = useState(0);
   return <>
-    <Counter increment={()=> setCounter(c=>c+1)}>Increment</Counter>
+    <button onClick={()=> setCounter(c=>c+1)}>Increment</button>
     <Timer max={counter} ></Timer>
     <p>{counter}</p>
   </>
