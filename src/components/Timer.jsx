@@ -1,20 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import Stopwatch from "../Stopwatch";
-
-const TIME_UNIT = 250;
+import { useState, useEffect, useRef } from "react";
+import Stopwatch from "../classes/Stopwatch";
+import './Timer.css'
 
 export default function Timer(props) {
-  const { max } = props;
-  const [timer, setTimer] = useState(0);
+  console.log('timer render');
+  const { onTick, timeUnit } = props;
 
-  const stopwatchRef = useRef(new Stopwatch(TIME_UNIT));
-  stopwatchRef.current.onTick = () => setTimer(t=> t+TIME_UNIT);
-
+  const [counter, setCounter] = useState(0);
+  const stopwatchRef = useRef(new Stopwatch(0));  
   useEffect(() => {
-    stopwatchRef.current.continueTo(max*1000);
-  }, [max]);
+    stopwatchRef.current.onTick = onTick;
+  }, [onTick])
+  useEffect(() => {
+    stopwatchRef.current.dt = timeUnit;
+  }, [timeUnit]);
+  useEffect(() => {
+    stopwatchRef.current.continueTo(counter*1000);
+  }, [counter]);
 
-return <>
-    <p>{timer}</p>
-  </>;
+  return <div className="Timer">
+    <button onClick={()=> setCounter(c=>c+1)}>Increment Counter</button>
+    <p>goal: {counter}{'\n'}current: {stopwatchRef.current.time/1000}</p>
+  </div>;
 }

@@ -1,3 +1,4 @@
+
 export default class Stopwatch {
   constructor(dt) {
     this.time = 0;
@@ -22,6 +23,8 @@ export default class Stopwatch {
     if (this.time < this._max) {
       this.time = Math.min(this._max, this.time+this.dt);
       this.onTick?.call();
-    } else this.stop();
+    } else {
+      this.stop();
+    }
   }
 }
